@@ -57,6 +57,8 @@ func getQuotes() [10]string {
 // GetRandomQuote returns a random quote from star wars universe.
 func GetRandomQuote() string {
 
+	//
+
 	rand.Seed(time.Now().UnixNano())
 
 	randomIndex := rand.Intn(10)

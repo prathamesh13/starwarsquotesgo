@@ -1,6 +1,16 @@
 package config
 
-import "fmt"
+import (
+	"encoding/csv"
+	"fmt"
+	"os"
+)
+
+// struct for holding quotes and character from csv file
+type quotes struct {
+	quote     string
+	character string
+}
 
 // ConfigureRepository fills in data i.e. quotes in the specified map using either
 // hardcoded data, data read from csv file or database.
@@ -10,7 +20,7 @@ func ConfigureRepository(source string, destMap *map[string][]string) {
 	case SourceLocal:
 		fillHardcodedData(destMap)
 	case SourceCsv:
-		fillCSVData()
+		fillCSVData(destMap)
 	case SourceDatabase:
 		fillDataFromDatabase()
 	default:
@@ -49,10 +59,30 @@ func fillHardcodedData(destMap *map[string][]string) {
 
 }
 
-// not implemented yet.
-func fillCSVData() {
+func fillCSVData(destMap *map[string][]string) {
 
-	// TODO:
+	file, error := os.Open("./quotes.csv")
+
+	if error != nil {
+
+		// TODO: Panic.
+		fmt.Println("Error Occured:", error)
+
+	}
+
+	reader := csv.NewReader(file)
+
+	records, err := reader.ReadAll()
+
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+	} else {
+		// TODO: extract data and populate the datastore with the quotes.
+		fmt.Println(records)
+	}
+
+	// TODO: use quotes from CSV file.
+	fillHardcodedData(destMap)
 }
 
 // not implemented yet.
